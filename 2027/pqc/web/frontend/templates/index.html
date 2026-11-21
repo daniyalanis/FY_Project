@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f1e9">
+  <title>ML-KEM / FIPS 203</title>
+  <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="masthead">
+      <div class="brand">ML-KEM<span class="muted"> / FIPS 203</span></div>
+    </header>
+
+    <hr class="rule">
+
+    <section class="intro" aria-labelledby="page-title">
+      <p class="eyebrow">01 — KEY GENERATION</p>
+      <h1 id="page-title">KeyGen<span class="muted">()</span></h1>
+      <p class="intro-copy">Generate an encapsulation key and a decapsulation key.</p>
+    </section>
+
+    <hr class="rule">
+
+    <section class="configuration" aria-labelledby="config-title">
+      <div class="section-title">
+        <h2 id="config-title">Configuration</h2>
+      </div>
+
+      <div class="field-block">
+        <span class="field-label">PARAMETER SET</span>
+        <div class="parameter-control" role="group" aria-label="ML-KEM parameter set">
+          <button type="button" class="parameter active" data-parameter="512" aria-pressed="true">512</button>
+          <button type="button" class="parameter" data-parameter="768" aria-pressed="false">768</button>
+          <button type="button" class="parameter" data-parameter="1024" aria-pressed="false">1024</button>
+        </div>
+      </div>
+
+      <div class="field-block">
+        <span class="field-label">RANDOMNESS</span>
+        <div class="mode-control">
+          <label><input type="radio" name="mode" value="random" checked> RANDOM</label>
+          <label><input type="radio" name="mode" value="deterministic"> DETERMINISTIC</label>
+        </div>
+      </div>
+
+      <div id="seedFields" class="seed-fields" hidden>
+        <label class="field-label" for="seedD">SEED D <span class="muted">(32 bytes / 64 hex characters)</span></label>
+        <input id="seedD" class="field-input" type="text" spellcheck="false" autocomplete="off" placeholder="9b7e79c7954ff36d...">
+        <label class="field-label" for="seedZ">SEED Z <span class="muted">(32 bytes / 64 hex characters)</span></label>
+        <input id="seedZ" class="field-input" type="text" spellcheck="false" autocomplete="off" placeholder="190fb350d86dd954...">
+        <span id="fillDet" class="inline-action">FILL VALUES</span>
+        <p class="notice">TEST MODE ONLY — do not reuse deterministic seeds for production keys.</p>
+      </div>
+
+      <div class="action-row">
+        <button id="runButton" class="run-button" type="button">GENERATE KEY PAIR</button>
+        <button id="resetButton" class="reset-button" type="button">RESET</button>
+      </div>
+      <p id="errorMessage" class="error" role="alert"></p>
+    </section>
+
+    <section class="execution" aria-labelledby="execution-title">
+      <hr class="rule">
+      <div class="section-title">
+        <h2 id="execution-title">Execution</h2>
+        <span class="muted">APPLICATION LOG</span>
+      </div>
+      <div id="eventLog" class="event-log" role="log" aria-live="polite" aria-relevant="additions">
+        <p class="log-entry muted"><time>--:--:--</time> Awaiting request.</p>
+      </div>
+      <p id="executionMeta" class="execution-meta" hidden></p>
+    </section>
+
+    <section id="resultsSection" class="results" aria-labelledby="results-title" hidden>
+      <hr class="rule">
+      <div class="section-title">
+        <h2 id="results-title">Output</h2>
+      </div>
+
+      <div class="output-grid">
+        <article class="output">
+          <div class="output-heading">
+            <h3>ek <span class="muted">/ PUBLIC</span></h3>
+            <span id="ekSize" class="byte-count">—</span>
+          </div>
+          <pre id="ekPreview" class="key-value">—</pre>
+          <div class="output-actions">
+            <button type="button" class="inline-action" data-copy="ek">COPY HEX</button>
+            <a id="ekDownload" class="inline-action" href="#">DOWNLOAD .BIN ↓</a>
+          </div>
+        </article>
+
+        <article class="output">
+          <div class="output-heading">
+            <h3>dk <span class="muted">/ PRIVATE</span></h3>
+            <span id="dkSize" class="byte-count">—</span>
+          </div>
+          <pre id="dkPreview" class="key-value">—</pre>
+          <div class="output-actions">
+            <button type="button" class="inline-action" data-copy="dk">COPY HEX</button>
+            <a id="dkDownload" class="inline-action" href="#">DOWNLOAD .BIN ↓</a>
+          </div>
+          <p class="private-note">PRIVATE KEY — KEEP CONFIDENTIAL</p>
+        </article>
+      </div>
+      <p class="output-footnote">Hexadecimal is shown for inspection. Binary downloads preserve the original bytes.</p>
+    </section>
+
+    <footer class="footer">
+      <div>
+      <span>SARBO SARCAR -</span>
+      <span>DANIYAL ANIS -</span>
+      <span>SRIJANI ROY</span>
+      </div>
+      <span>B.E. FINAL YEAR PROJECT</span>
+    </footer>
+  </main>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>
