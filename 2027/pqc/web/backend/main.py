@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
 from backend.api.keygen import router as keygen_router
+from backend.api.operations import router as operations_router
 from backend.core.config import STATIC_DIR, TEMPLATES_DIR
 
 app = FastAPI(
@@ -15,6 +16,7 @@ app = FastAPI(
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 templates = Jinja2Templates(directory=TEMPLATES_DIR)
 app.include_router(keygen_router)
+app.include_router(operations_router)
 
 
 @app.get("/", response_class=HTMLResponse)

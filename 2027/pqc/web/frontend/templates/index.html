@@ -10,7 +10,7 @@
 <body>
   <main class="page">
     <header class="masthead">
-      <div class="brand">ML-KEM<span class="muted"> / FIPS 203</span></div>
+      <div class="brand">ML-KEM<span class="muted">&nbsp;/ FIPS 203</span></div>
     </header>
 
     <hr class="rule">
@@ -25,7 +25,7 @@
 
     <section class="configuration" aria-labelledby="config-title">
       <div class="section-title">
-        <h2 id="config-title">Configuration</h2>
+        <h2 id="config-title">CONFIGURATION</h2>
       </div>
 
       <div class="field-block">
@@ -46,11 +46,11 @@
       </div>
 
       <div id="seedFields" class="seed-fields" hidden>
+        <span id="fillDet" class="inline-action fillDet">FILL VALUES ↓</span>
         <label class="field-label" for="seedD">SEED D <span class="muted">(32 bytes / 64 hex characters)</span></label>
         <input id="seedD" class="field-input" type="text" spellcheck="false" autocomplete="off" placeholder="9b7e79c7954ff36d...">
         <label class="field-label" for="seedZ">SEED Z <span class="muted">(32 bytes / 64 hex characters)</span></label>
         <input id="seedZ" class="field-input" type="text" spellcheck="false" autocomplete="off" placeholder="190fb350d86dd954...">
-        <span id="fillDet" class="inline-action">FILL VALUES</span>
         <p class="notice">TEST MODE ONLY — do not reuse deterministic seeds for production keys.</p>
       </div>
 
@@ -64,7 +64,7 @@
     <section class="execution" aria-labelledby="execution-title">
       <hr class="rule">
       <div class="section-title">
-        <h2 id="execution-title">Execution</h2>
+        <h2 id="execution-title">EXECUTION</h2>
         <span class="muted">APPLICATION LOG</span>
       </div>
       <div id="eventLog" class="event-log" role="log" aria-live="polite" aria-relevant="additions">
@@ -76,7 +76,7 @@
     <section id="resultsSection" class="results" aria-labelledby="results-title" hidden>
       <hr class="rule">
       <div class="section-title">
-        <h2 id="results-title">Output</h2>
+        <h2 id="results-title">OUTPUT</h2>
       </div>
 
       <div class="output-grid">
@@ -106,6 +106,100 @@
         </article>
       </div>
       <p class="output-footnote">Hexadecimal is shown for inspection. Binary downloads preserve the original bytes.</p>
+    </section>
+
+    <section class="operation-section" aria-labelledby="encap-title">
+      <div class="operation-intro">
+        <h1 id="encap-title">Encaps<span class="muted">()</span></h1>
+        <p>Generate a ciphertext and shared secret from an encapsulation key.</p>
+      </div>
+      <div class="configuration operation-config">
+        <div class="section-title"><h2>CONFIGURATION</h2></div>
+        <div class="artifact-field">
+          <span class="field-label">INPUT FORMAT</span>
+          <div class="source-control" role="group" aria-label="Encapsulation key input format">
+            <label><input type="radio" name="encap-ek-source" value="generated" checked> GENERATED ek</label>
+            <label><input type="radio" name="encap-ek-source" value="paste"> PASTE HEX</label>
+            <label><input type="radio" name="encap-ek-source" value="upload"> UPLOAD .BIN</label>
+          </div>
+          <p id="encapEkStatus" class="artifact-status muted">Generate a key pair above to use its encapsulation key.</p>
+          <textarea id="encapEkPaste" class="artifact-input" data-source-panel="encap-ek-paste" placeholder="9b7e79c7954ff36d..."></textarea>
+          <input id="encapEkUpload" class="artifact-upload" data-source-panel="encap-ek-upload" type="file" accept=".bin,application/octet-stream">
+        </div>
+        <div class="action-row"><button id="encapButton" class="run-button" type="button">RUN ENCAPSULATION</button></div>
+        <p id="encapError" class="error" role="alert"></p>
+      </div>
+      <div class="execution operation-execution" aria-labelledby="encap-execution-title">
+        <div class="section-title"><h2 id="encap-execution-title">EXECUTION</h2><span class="muted">APPLICATION LOG</span></div>
+        <div id="encapEventLog" class="event-log" role="log" aria-live="polite"><p class="log-entry muted"><time>--:--:--</time> Awaiting request.</p></div>
+      </div>
+      <div id="encapOutput" class="results operation-results" hidden>
+        <div class="section-title"><h2>OUTPUT</h2></div>
+        <div class="output-grid">
+          <article class="output">
+            <div class="output-heading"><h3>c <span class="muted">/ CIPHERTEXT</span></h3><span id="ctSize" class="byte-count">—</span></div>
+            <pre id="ctPreview" class="key-value">—</pre>
+            <div class="output-actions"><button type="button" class="inline-action" data-operation-copy="ct">COPY HEX</button><a id="ctDownload" class="inline-action" href="#">DOWNLOAD .BIN ↓</a></div>
+          </article>
+          <article class="output">
+            <div class="output-heading"><h3>K <span class="muted">/ SHARED SECRET</span></h3><span id="encapSecretSize" class="byte-count">—</span></div>
+            <pre id="encapSecretPreview" class="key-value secret-value">—</pre>
+            <div class="output-actions"><button type="button" class="inline-action" data-operation-copy="encap-secret">COPY HEX</button><a id="encapSecretDownload" class="inline-action" href="#">DOWNLOAD .BIN ↓</a></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="operation-section" aria-labelledby="decap-title">
+      <div class="operation-intro">
+        <h1 id="decap-title">Decaps<span class="muted">()</span></h1>
+        <p>Recover and verify the shared secret from a decapsulation key and ciphertext.</p>
+      </div>
+      <div class="configuration operation-config">
+        <div class="section-title"><h2>CONFIGURATION</h2></div>
+        <div class="artifact-field">
+          <span class="field-label">DECAPSULATION KEY INPUT</span>
+          <div class="source-control" role="group" aria-label="Decapsulation key input format">
+            <label><input type="radio" name="decap-dk-source" value="generated" checked> GENERATED dk</label>
+            <label><input type="radio" name="decap-dk-source" value="paste"> PASTE HEX</label>
+            <label><input type="radio" name="decap-dk-source" value="upload"> UPLOAD .BIN</label>
+          </div>
+          <p id="decapDkStatus" class="artifact-status muted">Generate a key pair above to use its decapsulation key.</p>
+          <textarea id="decapDkPaste" class="artifact-input" data-source-panel="decap-dk-paste" placeholder="190fb350d86dd954..."></textarea>
+          <input id="decapDkUpload" class="artifact-upload" data-source-panel="decap-dk-upload" type="file" accept=".bin,application/octet-stream">
+        </div>
+        <div class="artifact-field">
+          <span class="field-label">CIPHERTEXT INPUT</span>
+          <div class="source-control" role="group" aria-label="Ciphertext input format">
+            <label><input type="radio" name="decap-ct-source" value="generated" checked> GENERATED c</label>
+            <label><input type="radio" name="decap-ct-source" value="paste"> PASTE HEX</label>
+            <label><input type="radio" name="decap-ct-source" value="upload"> UPLOAD .BIN</label>
+          </div>
+          <p id="decapCtStatus" class="artifact-status muted">Run encapsulation above to use its ciphertext.</p>
+          <textarea id="decapCtPaste" class="artifact-input" data-source-panel="decap-ct-paste" placeholder="9b7e79c7954ff36d..."></textarea>
+          <input id="decapCtUpload" class="artifact-upload" data-source-panel="decap-ct-upload" type="file" accept=".bin,application/octet-stream">
+        </div>
+        <div class="action-row"><button id="decapButton" class="run-button" type="button">RUN DECAPSULATION</button></div>
+        <p id="decapError" class="error" role="alert"></p>
+      </div>
+      <div class="execution operation-execution" aria-labelledby="decap-execution-title">
+        <div class="section-title"><h2 id="decap-execution-title">EXECUTION</h2><span class="muted">APPLICATION LOG</span></div>
+        <div id="decapEventLog" class="event-log" role="log" aria-live="polite"><p class="log-entry muted"><time>--:--:--</time> Awaiting request.</p></div>
+      </div>
+      <div id="decapOutput" class="results operation-results" hidden>
+        <div class="section-title"><h2>OUTPUT</h2></div>
+        <div class="output-grid">
+          <article class="output">
+            <div class="output-heading"><h3>K' <span class="muted">/ SHARED SECRET</span></h3><span id="decapSecretSize" class="byte-count">—</span></div>
+            <pre id="decapSecretPreview" class="key-value secret-value">—</pre>
+            <div class="output-actions"><button type="button" class="inline-action" data-operation-copy="decap-secret">COPY HEX</button><a id="decapDownload" class="inline-action" href="#">DOWNLOAD .BIN ↓</a></div>
+          </article>
+          <article class="output verification-output">
+            <div class="output-heading"><h3>K = K' <span class="muted">/ VERIFICATION</span></h3></div>
+            <p id="matchStatus" class="match-status">Awaiting comparison.</p>
+          </article>
+        </div>
+      </div>
     </section>
 
     <footer class="footer">
